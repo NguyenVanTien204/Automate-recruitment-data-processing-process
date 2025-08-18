@@ -6,7 +6,7 @@ CRAWLER_CONFIG = {
     "pause": 2.0,              # delay sau mỗi action
     "scroll_pause": 1.5,       # delay giữa các lần scroll
     "limit": 50,               # giảm về 1 để test debug
-    "keyword": "intern data engineer",  # thay đổi keyword để tìm job có nhiều applicants hơn
+    "keyword": "data analyst",  # thay đổi keyword để tìm job có nhiều applicants hơn
     "location": "Vietnam",
     "LINKEDIN_USER_DATA_DIR": "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\Edge\\User Data",
     "LINKEDIN_PROFILE": "Default"

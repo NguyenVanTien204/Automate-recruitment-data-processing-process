@@ -15,6 +15,7 @@ from pathlib import Path
 from datetime import datetime
 from core.storage import JobStorage
 from core.processing.processor import JobDescriptionProcessor, ProcessedJobInfo
+from vietnamese_enhancement_report import generate_final_report
 # Add project root to path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
@@ -31,7 +32,7 @@ class LinkedInJobProcessor:
         self,
         mongo_uri: str = "mongodb://localhost:27017/",
         db_name: str = "crawler",
-        input_collection: str = "test",
+        input_collection: str = "demo",
         output_collection: str = "processed_jobs",
         config_path: Optional[str] = None
     ):
@@ -137,7 +138,7 @@ class LinkedInJobProcessor:
         total_linkedin_jobs = self.storage.collection.count_documents({'source': 'linkedin'})
         processed_jobs = self.storage.collection.count_documents({'vietnamese_analysis_completed': True})
         jobs_with_vn = self.storage.collection.count_documents({
-            'vietnamese_keywords': {'$exists': True, '$not': {'$size': 0}}
+            'extracted.vietnamese_keywords': {'$exists': True, '$not': {'$size': 0}}
         })
 
         print(f"\n📊 OVERVIEW")
@@ -150,7 +151,7 @@ class LinkedInJobProcessor:
 
         # Get detailed analysis
         vn_jobs = list(self.storage.collection.find({
-            'vietnamese_keywords': {'$exists': True, '$not': {'$size': 0}}
+            'extracted.vietnamese_keywords': {'$exists': True, '$not': {'$size': 0}}
         }))
 
         if not vn_jobs:
@@ -164,17 +165,17 @@ class LinkedInJobProcessor:
 
         for job in vn_jobs:
             # Count seniority levels
-            for seniority in job.get('seniority_levels', []):
+            for seniority in job.get('extracted', {}).get('seniority_levels', []):
                 keyword = seniority.get('keyword', 'Unknown')
                 seniority_counts[keyword] = seniority_counts.get(keyword, 0) + 1
 
             # Count Vietnamese categories
-            for vn_kw in job.get('vietnamese_keywords', []):
+            for vn_kw in job.get('extracted', {}).get('vietnamese_keywords', []):
                 category = vn_kw.get('category', 'Unknown')
                 vn_category_counts[category] = vn_category_counts.get(category, 0) + 1
 
             # Count tech categories
-            for tech in job.get('extended_technologies', []):
+            for tech in job.get('extracted', {}).get('extended_technologies', []):
                 category = tech.get('category', 'Unknown')
                 tech_category_counts[category] = tech_category_counts.get(category, 0) + 1
 
@@ -205,8 +206,8 @@ class LinkedInJobProcessor:
             title = job.get('title', 'Untitled')[:40]
             company = job.get('company', 'Unknown')[:30]
 
-            vn_keywords = [kw['keyword'] for kw in job.get('vietnamese_keywords', [])]
-            seniority = [s['keyword'] for s in job.get('seniority_levels', [])]
+            vn_keywords = [kw['keyword'] for kw in job.get('extracted', {}).get('vietnamese_keywords', [])]
+            seniority = [s['keyword'] for s in job.get('extracted', {}).get('seniority_levels', [])]
 
             print(f"\n  {i}. {title}...")
             print(f"     Company: {company}")
@@ -231,8 +232,8 @@ class LinkedInJobProcessor:
             {
                 '$match': {
                     'source': 'linkedin',
-                    'vietnamese_keywords': {'$exists': True, '$ne': []},
-                    'seniority_levels': {'$exists': True}
+                    'extracted.vietnamese_keywords': {'$exists': True, '$ne': []},
+                    'extracted.seniority_levels': {'$exists': True}
                 }
             },
             {
@@ -240,9 +241,9 @@ class LinkedInJobProcessor:
                     'title': 1,
                     'company': 1,
                     'description': {'$substr': ['$description', 0, 100]},
-                    'vietnamese_keywords': 1,
-                    'seniority_levels': 1,
-                    'extended_technologies': 1
+                    'extracted.vietnamese_keywords': 1,
+                    'extracted.seniority_levels': 1,
+                    'extracted.extended_technologies': 1
                 }
             }
         ]
@@ -258,8 +259,8 @@ class LinkedInJobProcessor:
         # Analyze keyword combinations
         keyword_combinations = {}
         for job in detailed_jobs:
-            vn_keywords = [kw['keyword'] for kw in job.get('vietnamese_keywords', [])]
-            seniority = [s['keyword'] for s in job.get('seniority_levels', [])]
+            vn_keywords = [kw['keyword'] for kw in job.get('extracted', {}).get('vietnamese_keywords', [])]
+            seniority = [s['keyword'] for s in job.get('extracted', {}).get('seniority_levels', [])]
 
             # Create combination key
             if vn_keywords or seniority:
@@ -281,7 +282,7 @@ class LinkedInJobProcessor:
         company_vn_stats = {}
         for job in detailed_jobs:
             company = job.get('company', 'Unknown')
-            vn_count = len(job.get('vietnamese_keywords', []))
+            vn_count = len(job.get('extracted', {}).get('vietnamese_keywords', []))
 
             if company not in company_vn_stats:
                 company_vn_stats[company] = {'jobs': 0, 'vn_keywords': 0}
@@ -333,8 +334,8 @@ class LinkedInJobProcessor:
                 print(f"Seniority Levels: {seniority}")
                 print(f"Technologies: {technologies}")
             else:
-                vn_keywords = [kw['keyword'] for kw in job.get('vietnamese_keywords', [])]
-                seniority = [s['keyword'] for s in job.get('seniority_levels', [])]
+                vn_keywords = [kw['keyword'] for kw in job.get('extracted', {}).get('vietnamese_keywords', [])]
+                seniority = [s['keyword'] for s in job.get('extracted', {}).get('seniority_levels', [])]
 
                 print(f"Vietnamese Keywords (cached): {vn_keywords}")
                 print(f"Seniority Levels (cached): {seniority}")
@@ -493,8 +494,16 @@ class LinkedInJobProcessor:
 
             # Keyword matches
             'matched_skills': processed_info.matched_skills,
-            'matched_technologies': processed_info.matched_technologies
+            'matched_technologies': processed_info.matched_technologies,
+            
+            # Vietnamese enhancements - organized within extracted section
+            'vietnamese_keywords': processed_info.vietnamese_keywords,
+            'seniority_levels': processed_info.seniority_levels,
+            'extended_technologies': processed_info.extended_technologies
         }
+
+        # Keep analysis completion flag at root level for easy querying
+        enriched['vietnamese_analysis_completed'] = True
 
         # Add summary statistics
         enriched['extraction_stats'] = {
@@ -504,7 +513,11 @@ class LinkedInJobProcessor:
             'total_qualifications': len(processed_info.qualifications),
             'total_matches': len(processed_info.matched_skills) + len(processed_info.matched_technologies),
             'text_length_original': len(processed_info.original_description),
-            'text_length_cleaned': len(processed_info.cleaned_text)
+            'text_length_cleaned': len(processed_info.cleaned_text),
+            # Vietnamese enhancement stats
+            'vietnamese_keywords_count': len(processed_info.vietnamese_keywords),
+            'seniority_levels_count': len(processed_info.seniority_levels),
+            'extended_technologies_count': len(processed_info.extended_technologies)
         }
 
         # Store cleaned description
@@ -513,13 +526,27 @@ class LinkedInJobProcessor:
         return enriched
 
     def _save_processed_job(self, enriched_job: Dict[str, Any]):
-        """Save processed job to output collection."""
+        """Update the original job with processed data."""
         try:
-            # Remove _id to avoid conflicts
-            if '_id' in enriched_job:
-                enriched_job['original_id'] = str(enriched_job.pop('_id'))
+            # Get the original job ID
+            job_id = enriched_job.get('_id')
+            if not job_id:
+                logger.error("No job ID found for updating")
+                return
 
-            self.output_storage.collection.insert_one(enriched_job)
+            # Prepare update data (without _id)
+            update_data = {k: v for k, v in enriched_job.items() if k != '_id'}
+
+            # Update the original job in place
+            result = self.storage.collection.update_one(
+                {'_id': job_id},
+                {'$set': update_data}
+            )
+
+            if result.modified_count > 0:
+                logger.debug(f"Successfully updated job {job_id}")
+            else:
+                logger.warning(f"Job {job_id} was not updated")
 
         except Exception as e:
             logger.error(f"Error saving processed job: {e}")
@@ -622,7 +649,7 @@ def main():
             print("="*50)
             print("1. 🚀 Process ALL LinkedIn jobs with Vietnamese keywords")
             print("2. 📊 Show comprehensive statistics")
-            print("3. 🔍 Show detailed Vietnamese analysis")
+            print("3. 🔍 Show vietnamese report")
             print("4. ⚡ Quick test (3 sample jobs)")
             print("5. 📈 Process specific number of jobs")
             print("6. 🔄 Force reprocess all jobs")
@@ -645,7 +672,7 @@ def main():
 
             elif choice == "3":
                 # Detailed analysis
-                processor.show_detailed_analysis()
+                generate_final_report()
 
             elif choice == "4":
                 # Quick test
@@ -655,7 +682,7 @@ def main():
                 # Process specific number
                 try:
                     limit = int(input("Enter number of jobs to process: "))
-                    results = processor.process_and_update_all_jobs(limit=limit)
+                    results = processor.process_all_jobs(limit=limit)
                     if results["processed"] > 0:
                         processor._get_comprehensive_statistics()
                 except ValueError:
@@ -666,7 +693,7 @@ def main():
                 print("\n🔄 Force reprocessing ALL jobs...")
                 confirm = input("This will reprocess ALL jobs. Continue? (y/N): ")
                 if confirm.lower() == 'y':
-                    results = processor.process_and_update_all_jobs(force_reprocess=True)
+                    results = processor.process_all_jobs(skip_processed=False)
                     processor._get_comprehensive_statistics()
                 else:
                     print("Cancelled.")
