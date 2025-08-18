@@ -179,6 +179,136 @@ class Linkedin_Crawler(BaseSiteCrawler):
             # đếm số job hiện có
             collected = len(driver.find_elements(By.CSS_SELECTOR, "ul.jobs-search__results-list li"))
 
+    def _parse_applicants_from_card(self, card) -> Optional[int]:
+        """Parse applicants info with simplified, more robust approach."""
+        try:
+            # 1. Lấy toàn bộ text content một lần
+            card_text = (card.get_attribute("textContent") or "").strip().lower()
+
+            # 2. Early applicant check - ưu tiên cao nhất
+            early_patterns = [
+                "be an early applicant",
+                "early applicant",
+                "be among the first",
+                "first to apply"
+            ]
+
+            if any(pattern in card_text for pattern in early_patterns):
+                print("DEBUG: Found early applicant pattern")
+                return 0
+
+            # 3. Tìm pattern số + applicant với regex đơn giản
+            applicant_patterns = [
+                r'(\d+)\s+(?:applicants?|people\s+applied|people\s+clicked\s+apply)',
+                r'(\d+)\s+(?:người\s+đã\s+nộp|đã\s+ứng\s+tuyển)',
+                r'applicants?:\s*(\d+)',
+                r'(\d+)\s*applicants?'
+            ]
+
+            for pattern in applicant_patterns:
+                matches = re.findall(pattern, card_text)
+                if matches:
+                    try:
+                        # Lấy số lớn nhất (thường là số applicants chính xác nhất)
+                        applicant_count = max(int(match) for match in matches)
+                        print(f"DEBUG: Found {applicant_count} applicants using pattern: {pattern}")
+                        return applicant_count
+                    except (ValueError, TypeError):
+                        continue
+
+            # 4. Fallback: tìm trong specific elements với aria-label hoặc data attributes
+            try:
+                applicant_elements = card.find_elements(By.CSS_SELECTOR,
+                    "[aria-label*='applicant'], [data-tracking*='applicant'], .job-card-container__applicant-count, span, div")
+
+                for elem in applicant_elements:
+                    elem_text = (elem.get_attribute("textContent") or "").strip().lower()
+                    aria_label = (elem.get_attribute("aria-label") or "").strip().lower()
+
+                    # Check both text content and aria-label
+                    for text_source in [elem_text, aria_label]:
+                        if text_source:
+                            # Early applicant check
+                            if any(pattern in text_source for pattern in early_patterns):
+                                print(f"DEBUG: Found early applicant in element: {text_source}")
+                                return 0
+
+                            # Number extraction
+                            for pattern in applicant_patterns:
+                                matches = re.findall(pattern, text_source)
+                                if matches:
+                                    try:
+                                        applicant_count = int(matches[0])
+                                        print(f"DEBUG: Found {applicant_count} applicants in element: {text_source}")
+                                        return applicant_count
+                                    except (ValueError, TypeError):
+                                        continue
+            except Exception as e:
+                print(f"DEBUG: Error in element search: {e}")
+
+            print("DEBUG: No applicants info found")
+            return None
+
+        except Exception as e:
+            print(f"DEBUG: Error in _parse_applicants_from_card: {e}")
+            return None
+
+    def _parse_posted_at_from_card(self, card) -> Optional[str]:
+        """Parse posted time with simplified approach."""
+        try:
+            card_text = (card.get_attribute("textContent") or "").strip()
+
+            # Split into lines for more precise matching
+            lines = [line.strip() for line in card_text.split('\n') if line.strip()]
+
+            # Time keywords
+            time_tokens = [
+                "ago", "posted", "reposted", "today", "yesterday",
+                "giờ trước", "phút trước", "ngày trước", "vừa xong", "hôm nay", "hôm qua",
+                "days ago", "hours ago", "minutes ago", "weeks ago", "months ago",
+                "hour ago", "day ago", "week ago", "month ago"
+            ]
+
+            # First check lines (more precise)
+            for line in lines:
+                line_lower = line.lower()
+                if any(tk in line_lower for tk in time_tokens):
+                    print(f"DEBUG: Found posted_at in line: {line}")
+                    return line
+
+            # Fallback: regex patterns on full text
+            time_patterns = [
+                r'(\d+\s+(?:minutes?|hours?|days?|weeks?|months?)\s+ago)',
+                r'(posted\s+\d+\s+(?:minutes?|hours?|days?|weeks?|months?)\s+ago)',
+                r'(today|yesterday|hôm\s+nay|hôm\s+qua)',
+                r'(\d+\s+(?:giờ|phút|ngày)\s+trước)'
+            ]
+
+            for pattern in time_patterns:
+                matches = re.findall(pattern, card_text.lower())
+                if matches:
+                    found_time = matches[0].strip()
+                    print(f"DEBUG: Found posted_at with regex: {found_time}")
+                    return found_time
+
+            # Last resort: check time elements
+            try:
+                time_elements = card.find_elements(By.CSS_SELECTOR, "time, [datetime], .job-card-container__metadata-item")
+                for elem in time_elements:
+                    text = (elem.get_attribute("textContent") or "").strip()
+                    if text and any(keyword in text.lower() for keyword in ["ago", "posted", "today", "yesterday"]):
+                        print(f"DEBUG: Found posted_at in time element: {text}")
+                        return text
+            except Exception:
+                pass
+
+            print("DEBUG: No posted_at info found")
+            return None
+
+        except Exception as e:
+            print(f"DEBUG: Error in _parse_posted_at_from_card: {e}")
+            return None
+
     def parse_job_cards(self, limit: int = 3) -> List[JobPosting]:
         driver = self.driver
         assert driver is not None
@@ -189,15 +319,16 @@ class Linkedin_Crawler(BaseSiteCrawler):
         jobs: List[JobPosting] = []
         cards = driver.find_elements(By.CSS_SELECTOR, "ul.jobs-search__results-list li")
 
-        for card in cards[:limit]:
+        for i, card in enumerate(cards[:limit], 1):
             try:
                 title_el = card.find_element(By.CSS_SELECTOR, "a.job-card-list__title, a[href*='/jobs/view/']")
                 title = self._txt(title_el)
                 url = title_el.get_attribute("href")
             except Exception:
+                print(f"DEBUG: Card {i} - Cannot find title/url, skipping")
                 continue
 
-            company, loc, desc, posted_at, applicants = None, None, None, None, None
+            company, loc, desc = None, None, None
 
             # Công ty
             try:
@@ -219,110 +350,17 @@ class Linkedin_Crawler(BaseSiteCrawler):
             except Exception:
                 pass
 
-            # Thông tin thời gian và applicants từ card (trước khi click)
-            try:
-                # Tìm text trong card chứa thông tin metadata
-                card_text = (card.get_attribute("textContent") or "").strip()
-                print(f"DEBUG: Card {cards.index(card)+1} text: {card_text[:200]}...")
+            # === SỬ DỤNG HELPER FUNCTIONS ===
+            print(f"DEBUG: Processing card {i} - {title}")
 
-                # Tách thành các dòng
-                lines = [line.strip() for line in card_text.split('\n') if line.strip()]
-                print(f"DEBUG: Card lines: {lines}")
+            # Parse thông tin metadata từ card
+            posted_at = self._parse_posted_at_from_card(card)
+            applicants = self._parse_applicants_from_card(card)
 
-                # Thử tìm thông tin applicants từ các elements con trong card
-                try:
-                    # Tìm các span hoặc div có thể chứa thông tin applicants
-                    applicant_elements = card.find_elements(By.CSS_SELECTOR, "span, div, li")
-                    for elem in applicant_elements:
-                        elem_text = (elem.get_attribute("textContent") or "").strip()
-                        if elem_text:
-                            elem_lower = elem_text.lower()
-                            if "be an early applicant" in elem_lower:
-                                applicants = 0
-                                print(f"DEBUG: Found 'be an early applicant' in element: {elem_text}")
-                                break
-                            elif any(k in elem_lower for k in ["applicant", "people applied"]):
-                                # Tìm số
-                                m = re.search(r"(\d+)", elem_text)
-                                if m:
-                                    try:
-                                        applicants = int(m.group(1))
-                                        print(f"DEBUG: Found {applicants} applicants in element: {elem_text}")
-                                        break
-                                    except Exception:
-                                        continue
-                except Exception as e:
-                    print(f"DEBUG: Error searching elements in card: {e}")
+            print(f"DEBUG: Card {i} results - posted_at: {posted_at}, applicants: {applicants}")
 
-                # Parse posted_at từ card
-                time_tokens = [
-                    "ago", "posted", "reposted", "today", "yesterday",
-                    "giờ trước", "phút trước", "ngày trước", "vừa xong", "hôm nay", "hôm qua",
-                    "days ago", "hours ago", "minutes ago", "weeks ago", "months ago",
-                    "hour ago", "day ago", "week ago", "month ago"
-                ]
-                for line in lines:
-                    line_lower = line.lower()
-                    if any(tk in line_lower for tk in time_tokens):
-                        posted_at = line
-                        print(f"DEBUG: Found posted_at in card: {posted_at}")
-                        break
-
-                # Parse applicants từ card lines nếu chưa tìm thấy
-                if applicants is None:
-                    applicant_tokens = [
-                        "applicant", "applicants", "people applied", "people clicked apply",
-                        "người đã nộp", "đã ứng tuyển", "early applicant", "be an early applicant"
-                    ]
-
-                    print(f"DEBUG: Looking for applicants in lines: {lines}")
-
-                    for line in lines:
-                        line_lower = line.lower().strip()
-                        print(f"DEBUG: Checking line: '{line}' (lower: '{line_lower}')")
-
-                        if any(k in line_lower for k in applicant_tokens):
-                            print(f"DEBUG: Found applicant keyword in line: '{line}'")
-
-                            if "early applicant" in line_lower or "be an early applicant" in line_lower:
-                                applicants = 0
-                                print("DEBUG: Found early applicant in card")
-                                break
-                            else:
-                                # Tìm số trong text
-                                m = re.search(r"(\d[\d,.]*)", line)
-                                if m:
-                                    num = re.sub(r"[^0-9]", "", m.group(1))
-                                    if num:
-                                        try:
-                                            applicants = int(num)
-                                            print(f"DEBUG: Found applicants in card: {applicants}")
-                                        except Exception:
-                                            applicants = None
-                                else:
-                                    print(f"DEBUG: No number found in applicant line: '{line}'")
-                                break
-
-                    # Nếu chưa tìm thấy, thử tìm trong toàn bộ card text
-                    if applicants is None:
-                        card_text_lower = card_text.lower()
-                        if "be an early applicant" in card_text_lower:
-                            applicants = 0
-                            print("DEBUG: Found 'be an early applicant' in full card text")
-                        elif any(k in card_text_lower for k in applicant_tokens):
-                            # Tìm số trong toàn bộ text
-                            matches = re.findall(r"(\d+)\s*(?:applicant|people applied)", card_text_lower)
-                            if matches:
-                                try:
-                                    applicants = int(matches[0])
-                                    print(f"DEBUG: Found applicants in full text: {applicants}")
-                                except Exception:
-                                    pass
-
-            except Exception as e:
-                print(f"DEBUG: Error parsing card metadata: {e}")
-
-            # --- Chỉ click vào job để lấy mô tả nếu cần thiết ---
+            # === XỬ LÝ DESCRIPTION ===
+            # Chỉ click để lấy description nếu cần thiết
             try:
                 # Nếu đã có đủ thông tin cơ bản, có thể bỏ qua việc click để tránh timeout
                 if applicants is not None and posted_at is not None:
@@ -370,18 +408,25 @@ class Linkedin_Crawler(BaseSiteCrawler):
                 print(f"DEBUG: Error processing job details: {e}")
                 desc = None
 
-            jobs.append(
-                JobPosting(
-                    title=title,
-                    company=company,
-                    location=loc,
-                    url=url,
-                    source="linkedin",
-                    posted_at=posted_at,
-                    applicants=applicants,
-                    description=desc,
-                    raw={"card_html": card.get_attribute("outerHTML")},
-                )
+            # Tạo JobPosting object
+            job = JobPosting(
+                title=title,
+                company=company,
+                location=loc,
+                url=url,
+                source="linkedin",
+                posted_at=posted_at,
+                applicants=applicants,
+                description=desc,
+                raw={"card_html": card.get_attribute("outerHTML")},
             )
-        return jobs
 
+            jobs.append(job)
+            print(f"DEBUG: Card {i} completed - {title} | {company} | {posted_at} | {applicants} applicants")
+
+            # Thêm delay giữa các cards để tránh bị detect
+            if i < len(cards[:limit]):
+                time.sleep(self.pause + random.uniform(0.2, 0.5))
+
+        print(f"DEBUG: Completed parsing {len(jobs)} jobs")
+        return jobs

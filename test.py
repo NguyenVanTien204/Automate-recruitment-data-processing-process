@@ -5,8 +5,8 @@ CRAWLER_CONFIG = {
     "max_pages": 1,            # số trang (LinkedIn thường =1, dùng scroll)
     "pause": 2.0,              # delay sau mỗi action
     "scroll_pause": 1.5,       # delay giữa các lần scroll
-    "limit": 30,               # số job muốn crawl
-    "keyword": "data analyst",
+    "limit": 3,               # số job muốn crawl
+    "keyword": "data engineer",
     "location": "Vietnam",
     "LINKEDIN_USER_DATA_DIR": "C:\\Users\\Admin\\AppData\\Local\\Microsoft\\Edge\\User Data",
     "LINKEDIN_PROFILE": "Default"
