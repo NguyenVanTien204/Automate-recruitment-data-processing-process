@@ -1,0 +1,222 @@
+{
+  "seniority_levels": {
+    "fresher": {
+      "category": "entry_level",
+      "weight": 1.0,
+      "aliases": ["fresh graduate", "entry level", "new graduate", "intern", "internship", "thực tập"],
+      "description": "Entry level position for fresh graduates"
+    },
+    "junior": {
+      "category": "junior_level",
+      "weight": 1.0,
+      "aliases": ["jr", "junior developer", "junior engineer", "nhân viên", "0-2 years", "1-2 years"],
+      "description": "Junior level position with 0-2 years experience"
+    },
+    "middle": {
+      "category": "middle_level",
+      "weight": 1.0,
+      "aliases": ["mid", "mid-level", "intermediate", "2-5 years", "3-5 years", "nhân viên chính"],
+      "description": "Mid-level position with 2-5 years experience"
+    },
+    "senior": {
+      "category": "senior_level",
+      "weight": 1.0,
+      "aliases": ["sr", "senior developer", "senior engineer", "chuyên viên", "5+ years", "expert"],
+      "description": "Senior level position with 5+ years experience"
+    },
+    "lead": {
+      "category": "leadership",
+      "weight": 1.0,
+      "aliases": ["team lead", "technical lead", "tech lead", "lead developer", "trưởng nhóm", "leader"],
+      "description": "Team leadership position"
+    },
+    "manager": {
+      "category": "management",
+      "weight": 1.0,
+      "aliases": ["engineering manager", "development manager", "project manager", "quản lý", "pm"],
+      "description": "Management position"
+    },
+    "architect": {
+      "category": "architecture",
+      "weight": 1.0,
+      "aliases": ["solution architect", "system architect", "software architect", "kiến trúc sư"],
+      "description": "Architecture and design role"
+    },
+    "director": {
+      "category": "executive",
+      "weight": 1.0,
+      "aliases": ["engineering director", "technical director", "giám đốc kỹ thuật"],
+      "description": "Director level position"
+    }
+  },
+  "vietnamese_skills": {
+    "lập trình": {
+      "category": "programming_vn",
+      "weight": 1.0,
+      "aliases": ["programming", "code", "coding", "viết code"],
+      "description": "Programming skills in Vietnamese"
+    },
+    "phát triển web": {
+      "category": "web_development_vn",
+      "weight": 1.0,
+      "aliases": ["web development", "web dev", "phát triển website"],
+      "description": "Web development skills"
+    },
+    "phát triển mobile": {
+      "category": "mobile_development_vn",
+      "weight": 1.0,
+      "aliases": ["mobile development", "mobile dev", "ứng dụng di động"],
+      "description": "Mobile development skills"
+    },
+    "cơ sở dữ liệu": {
+      "category": "database_vn",
+      "weight": 1.0,
+      "aliases": ["database", "db", "sql", "csdl"],
+      "description": "Database skills"
+    },
+    "trí tuệ nhân tạo": {
+      "category": "ai_vn",
+      "weight": 1.0,
+      "aliases": ["artificial intelligence", "ai", "machine learning", "ml", "học máy"],
+      "description": "AI and Machine Learning"
+    },
+    "phân tích dữ liệu": {
+      "category": "data_analysis_vn",
+      "weight": 1.0,
+      "aliases": ["data analysis", "data analytics", "phân tích số liệu"],
+      "description": "Data analysis skills"
+    },
+    "kiểm thử": {
+      "category": "testing_vn",
+      "weight": 1.0,
+      "aliases": ["testing", "qa", "quality assurance", "test"],
+      "description": "Software testing skills"
+    },
+    "devops": {
+      "category": "devops_vn",
+      "weight": 1.0,
+      "aliases": ["deployment", "ci/cd", "triển khai", "vận hành"],
+      "description": "DevOps and deployment skills"
+    }
+  },
+  "vietnamese_job_types": {
+    "toàn thời gian": {
+      "category": "employment_type_vn",
+      "weight": 1.0,
+      "aliases": ["full-time", "fulltime", "full time", "chính thức"],
+      "description": "Full-time employment"
+    },
+    "bán thời gian": {
+      "category": "employment_type_vn",
+      "weight": 1.0,
+      "aliases": ["part-time", "parttime", "part time"],
+      "description": "Part-time employment"
+    },
+    "thực tập": {
+      "category": "employment_type_vn",
+      "weight": 1.0,
+      "aliases": ["internship", "intern", "thực tập sinh"],
+      "description": "Internship position"
+    },
+    "freelance": {
+      "category": "employment_type_vn",
+      "weight": 1.0,
+      "aliases": ["tự do", "làm tự do", "contract", "hợp đồng"],
+      "description": "Freelance work"
+    },
+    "remote": {
+      "category": "work_arrangement_vn",
+      "weight": 1.0,
+      "aliases": ["làm từ xa", "work from home", "wfh", "online"],
+      "description": "Remote work"
+    },
+    "onsite": {
+      "category": "work_arrangement_vn",
+      "weight": 1.0,
+      "aliases": ["tại văn phòng", "office", "làm tại chỗ"],
+      "description": "On-site work"
+    },
+    "hybrid": {
+      "category": "work_arrangement_vn",
+      "weight": 1.0,
+      "aliases": ["kết hợp", "mixed", "linh hoạt"],
+      "description": "Hybrid work arrangement"
+    }
+  },
+  "vietnamese_benefits": {
+    "lương cạnh tranh": {
+      "category": "compensation_vn",
+      "weight": 1.0,
+      "aliases": ["competitive salary", "mức lương hấp dẫn", "thu nhập cao"],
+      "description": "Competitive salary"
+    },
+    "bảo hiểm": {
+      "category": "benefits_vn",
+      "weight": 1.0,
+      "aliases": ["insurance", "bảo hiểm y tế", "health insurance"],
+      "description": "Insurance benefits"
+    },
+    "thưởng": {
+      "category": "benefits_vn",
+      "weight": 1.0,
+      "aliases": ["bonus", "performance bonus", "thưởng hiệu suất"],
+      "description": "Bonus and incentives"
+    },
+    "đào tạo": {
+      "category": "benefits_vn",
+      "weight": 1.0,
+      "aliases": ["training", "phát triển kỹ năng", "học tập"],
+      "description": "Training and development"
+    },
+    "nghỉ phép": {
+      "category": "benefits_vn",
+      "weight": 1.0,
+      "aliases": ["vacation", "annual leave", "paid leave", "nghỉ có lương"],
+      "description": "Vacation and leave"
+    },
+    "môi trường trẻ": {
+      "category": "culture_vn",
+      "weight": 1.0,
+      "aliases": ["young environment", "dynamic", "năng động"],
+      "description": "Young and dynamic work environment"
+    }
+  },
+  "vietnamese_requirements": {
+    "kinh nghiệm": {
+      "category": "requirements_vn",
+      "weight": 1.0,
+      "aliases": ["experience", "exp", "năm kinh nghiệm"],
+      "description": "Work experience requirements"
+    },
+    "bằng cấp": {
+      "category": "education_vn",
+      "weight": 1.0,
+      "aliases": ["degree", "diploma", "học vấn", "tốt nghiệp"],
+      "description": "Educational requirements"
+    },
+    "tiếng anh": {
+      "category": "language_vn",
+      "weight": 1.0,
+      "aliases": ["english", "english skills", "khả năng tiếng anh"],
+      "description": "English language skills"
+    },
+    "kỹ năng giao tiếp": {
+      "category": "soft_skills_vn",
+      "weight": 1.0,
+      "aliases": ["communication skills", "communication", "giao tiếp"],
+      "description": "Communication skills"
+    },
+    "làm việc nhóm": {
+      "category": "soft_skills_vn",
+      "weight": 1.0,
+      "aliases": ["teamwork", "team work", "hợp tác"],
+      "description": "Teamwork skills"
+    },
+    "giải quyết vấn đề": {
+      "category": "soft_skills_vn",
+      "weight": 1.0,
+      "aliases": ["problem solving", "problem-solving", "tư duy logic"],
+      "description": "Problem solving skills"
+    }
+  }
+}

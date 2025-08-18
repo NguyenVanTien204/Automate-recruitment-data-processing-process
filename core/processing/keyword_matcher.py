@@ -37,6 +37,8 @@ class KeywordMatcher:
         self.tech_dict = self._load_dictionary('technologies')
         self.soft_skills_dict = self._load_dictionary('soft_skills')
         self.industry_terms_dict = self._load_dictionary('industry_terms')
+        self.vietnamese_dict = self._load_dictionary('vietnamese')
+        self.extended_tech_dict = self._load_dictionary('extended_tech')
 
         # Compile patterns for better performance
         self._compile_patterns()
@@ -165,6 +167,28 @@ class KeywordMatcher:
                 }
             }
 
+        elif dict_type == 'vietnamese':
+            # Try to load from file first
+            try:
+                vietnamese_path = Path(__file__).parent.parent.parent / 'data' / 'dictionaries' / 'vietnamese_keywords.json'
+                if vietnamese_path.exists():
+                    with open(vietnamese_path, 'r', encoding='utf-8') as f:
+                        return json.load(f)
+            except Exception as e:
+                logger.warning(f"Could not load Vietnamese dictionary: {e}")
+            return {}
+
+        elif dict_type == 'extended_tech':
+            # Try to load from file first
+            try:
+                tech_path = Path(__file__).parent.parent.parent / 'data' / 'dictionaries' / 'extended_tech_dictionary.json'
+                if tech_path.exists():
+                    with open(tech_path, 'r', encoding='utf-8') as f:
+                        return json.load(f)
+            except Exception as e:
+                logger.warning(f"Could not load extended tech dictionary: {e}")
+            return {}
+
         return {}
 
     def _compile_patterns(self):
@@ -172,7 +196,9 @@ class KeywordMatcher:
         # Create a combined pattern for all keywords
         all_keywords = set()
 
-        for dict_data in [self.skills_dict, self.tech_dict, self.soft_skills_dict, self.industry_terms_dict]:
+        # Include all dictionaries
+        for dict_data in [self.skills_dict, self.tech_dict, self.soft_skills_dict,
+                         self.industry_terms_dict, self.vietnamese_dict, self.extended_tech_dict]:
             for category_data in dict_data.values():
                 if isinstance(category_data, dict):
                     all_keywords.update(category_data.keys())
@@ -197,6 +223,9 @@ class KeywordMatcher:
             'technologies': [],
             'soft_skills': [],
             'industry_terms': [],
+            'seniority_levels': [],
+            'vietnamese_keywords': [],
+            'extended_technologies': [],
             'confidence': 0.0,
             'total_matches': 0
         }
@@ -206,14 +235,26 @@ class KeywordMatcher:
         tech_matches = self._match_against_dictionary(normalized_text, self.tech_dict, 'technologies')
         soft_skills_matches = self._match_against_dictionary(normalized_text, self.soft_skills_dict, 'soft_skills')
         industry_matches = self._match_against_dictionary(normalized_text, self.industry_terms_dict, 'industry_terms')
+        vietnamese_matches = self._match_against_dictionary(normalized_text, self.vietnamese_dict, 'vietnamese_keywords')
+        extended_tech_matches = self._match_against_dictionary(normalized_text, self.extended_tech_dict, 'extended_technologies')
 
         results['skills'] = skills_matches
         results['technologies'] = tech_matches
         results['soft_skills'] = soft_skills_matches
         results['industry_terms'] = industry_matches
+        results['vietnamese_keywords'] = vietnamese_matches
+        results['extended_technologies'] = extended_tech_matches
+
+        # Extract seniority levels from Vietnamese dictionary
+        if vietnamese_matches:
+            seniority_matches = [match for match in vietnamese_matches
+                               if any(keyword in match.get('category', '') for keyword in ['level', 'seniority'])]
+            results['seniority_levels'] = seniority_matches
 
         # Calculate statistics
-        total_matches = sum(len(matches) for matches in [skills_matches, tech_matches, soft_skills_matches, industry_matches])
+        all_matches = [skills_matches, tech_matches, soft_skills_matches,
+                      industry_matches, vietnamese_matches, extended_tech_matches]
+        total_matches = sum(len(matches) for matches in all_matches)
         results['total_matches'] = total_matches
         results['confidence'] = self._calculate_confidence(results)
 

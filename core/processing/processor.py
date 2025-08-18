@@ -45,6 +45,13 @@ class ProcessedJobInfo:
     # Keyword matching results
     matched_skills: List[Dict[str, Any]] = field(default_factory=list)
     matched_technologies: List[Dict[str, Any]] = field(default_factory=list)
+    matched_soft_skills: List[Dict[str, Any]] = field(default_factory=list)
+    matched_industry_terms: List[Dict[str, Any]] = field(default_factory=list)
+
+    # Vietnamese and extended matching
+    vietnamese_keywords: List[Dict[str, Any]] = field(default_factory=list)
+    seniority_levels: List[Dict[str, Any]] = field(default_factory=list)
+    extended_technologies: List[Dict[str, Any]] = field(default_factory=list)
 
     # Metadata
     confidence_scores: Dict[str, float] = field(default_factory=dict)
@@ -68,6 +75,11 @@ class ProcessedJobInfo:
             'benefits': self.benefits,
             'matched_skills': self.matched_skills,
             'matched_technologies': self.matched_technologies,
+            'matched_soft_skills': self.matched_soft_skills,
+            'matched_industry_terms': self.matched_industry_terms,
+            'vietnamese_keywords': self.vietnamese_keywords,
+            'seniority_levels': self.seniority_levels,
+            'extended_technologies': self.extended_technologies,
             'confidence_scores': self.confidence_scores,
             'processing_time': self.processing_time,
             'timestamp': self.timestamp
@@ -170,11 +182,19 @@ class JobDescriptionProcessor:
                 # Keywords
                 matched_skills=keyword_results.get('skills', []),
                 matched_technologies=keyword_results.get('technologies', []),
+                matched_soft_skills=keyword_results.get('soft_skills', []),
+                matched_industry_terms=keyword_results.get('industry_terms', []),
+
+                # Vietnamese and extended matching
+                vietnamese_keywords=keyword_results.get('vietnamese_keywords', []),
+                seniority_levels=keyword_results.get('seniority_levels', []),
+                extended_technologies=keyword_results.get('extended_technologies', []),
 
                 # Metadata
                 confidence_scores={
                     'ner_confidence': ner_results.get('confidence', 0.0),
-                    'keyword_confidence': keyword_results.get('confidence', 0.0)
+                    'keyword_confidence': keyword_results.get('confidence', 0.0),
+                    'total_matches': keyword_results.get('total_matches', 0)
                 },
                 processing_time=(datetime.now() - start_time).total_seconds()
             )

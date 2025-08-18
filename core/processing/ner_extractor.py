@@ -215,10 +215,13 @@ class NERExtractor:
         results['skills'].extend(self._extract_skills_contextual(doc))
         results['technologies'].extend(self._extract_technologies_contextual(doc))
 
-        # Remove duplicates
-        for key in results:
-            if isinstance(results[key], list):
-                results[key] = list(dict.fromkeys(results[key]))
+        # Remove duplicates - only process lists that should contain strings
+        string_lists = ['skills', 'roles', 'technologies', 'responsibilities', 'qualifications', 'benefits']
+        for key in string_lists:
+            if key in results and isinstance(results[key], list) and results[key]:
+                # Only process if all items are strings
+                if all(isinstance(item, str) for item in results[key]):
+                    results[key] = list(dict.fromkeys(results[key]))
 
         # Calculate confidence score
         results['confidence'] = self._calculate_confidence(results)
@@ -282,8 +285,11 @@ class NERExtractor:
                     if match:
                         skill_text = match.group(1).strip()
                         # Clean and split skills
-                        skill_items = [s.strip() for s in re.split(r'[,;and]', skill_text) if s.strip()]
-                        skills.extend(skill_items[:3])  # Limit to 3 skills per context
+                        skill_items = [s.strip() for s in re.split(r'[,;]|\\band\\b', skill_text) if s.strip()]
+                        # Filter out very short or common words
+                        valid_skills = [skill for skill in skill_items
+                                      if len(skill) > 2 and skill not in ['and', 'or', 'the', 'of', 'in', 'to', 'for']]
+                        skills.extend(valid_skills[:3])  # Limit to 3 skills per context
 
         return skills
 
@@ -300,8 +306,12 @@ class NERExtractor:
         for token in doc:
             if (token.text.lower() in tech_keywords and
                 token.head.pos_ in ['NOUN', 'PROPN'] and
-                token.head.text.lower() not in tech_keywords):
-                technologies.append(token.head.text.lower())
+                token.head.text.lower() not in tech_keywords and
+                len(token.head.text) > 2):  # Filter short words
+                tech_name = token.head.text.lower()
+                # Additional filtering for common words
+                if tech_name not in ['team', 'work', 'job', 'role', 'data', 'big', 'new', 'good', 'best']:
+                    technologies.append(tech_name)
 
         return technologies
 

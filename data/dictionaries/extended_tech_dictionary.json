@@ -1,0 +1,322 @@
+{
+  "programming_languages": {
+    "python": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["py", "python3", "python2"],
+      "description": "Python programming language"
+    },
+    "javascript": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["js", "javascript", "ecmascript", "node.js", "nodejs"],
+      "description": "JavaScript programming language"
+    },
+    "java": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["jdk", "jvm", "java se", "java ee"],
+      "description": "Java programming language"
+    },
+    "c#": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["csharp", "c sharp", ".net", "dotnet"],
+      "description": "C# programming language"
+    },
+    "php": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["php7", "php8", "laravel", "symfony"],
+      "description": "PHP programming language"
+    },
+    "go": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["golang", "go lang"],
+      "description": "Go programming language"
+    },
+    "rust": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["rust-lang"],
+      "description": "Rust programming language"
+    },
+    "swift": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["swift ui", "swiftui"],
+      "description": "Swift programming language"
+    },
+    "kotlin": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["kt"],
+      "description": "Kotlin programming language"
+    },
+    "typescript": {
+      "category": "programming_language",
+      "weight": 1.0,
+      "aliases": ["ts", "type script"],
+      "description": "TypeScript programming language"
+    }
+  },
+  "frameworks": {
+    "react": {
+      "category": "frontend_framework",
+      "weight": 1.0,
+      "aliases": ["reactjs", "react.js", "react native", "reactnative"],
+      "description": "React JavaScript framework"
+    },
+    "angular": {
+      "category": "frontend_framework",
+      "weight": 1.0,
+      "aliases": ["angularjs", "angular.js", "angular2+"],
+      "description": "Angular frontend framework"
+    },
+    "vue": {
+      "category": "frontend_framework",
+      "weight": 1.0,
+      "aliases": ["vuejs", "vue.js", "vue3"],
+      "description": "Vue.js frontend framework"
+    },
+    "django": {
+      "category": "backend_framework",
+      "weight": 1.0,
+      "aliases": ["django rest", "drf"],
+      "description": "Django Python framework"
+    },
+    "flask": {
+      "category": "backend_framework",
+      "weight": 1.0,
+      "aliases": ["flask-restful"],
+      "description": "Flask Python framework"
+    },
+    "spring": {
+      "category": "backend_framework",
+      "weight": 1.0,
+      "aliases": ["spring boot", "springboot", "spring mvc"],
+      "description": "Spring Java framework"
+    },
+    "express": {
+      "category": "backend_framework",
+      "weight": 1.0,
+      "aliases": ["expressjs", "express.js"],
+      "description": "Express.js Node framework"
+    },
+    "laravel": {
+      "category": "backend_framework",
+      "weight": 1.0,
+      "aliases": ["laravel 8", "laravel 9", "laravel 10"],
+      "description": "Laravel PHP framework"
+    }
+  },
+  "databases": {
+    "mysql": {
+      "category": "relational_database",
+      "weight": 1.0,
+      "aliases": ["mysql 5", "mysql 8", "mariadb"],
+      "description": "MySQL relational database"
+    },
+    "postgresql": {
+      "category": "relational_database",
+      "weight": 1.0,
+      "aliases": ["postgres", "psql"],
+      "description": "PostgreSQL database"
+    },
+    "mongodb": {
+      "category": "nosql_database",
+      "weight": 1.0,
+      "aliases": ["mongo", "mongo db"],
+      "description": "MongoDB NoSQL database"
+    },
+    "redis": {
+      "category": "cache_database",
+      "weight": 1.0,
+      "aliases": ["redis cache"],
+      "description": "Redis in-memory database"
+    },
+    "elasticsearch": {
+      "category": "search_database",
+      "weight": 1.0,
+      "aliases": ["elastic search", "es"],
+      "description": "Elasticsearch search engine"
+    },
+    "oracle": {
+      "category": "relational_database",
+      "weight": 1.0,
+      "aliases": ["oracle db", "oracle database"],
+      "description": "Oracle database"
+    },
+    "sql server": {
+      "category": "relational_database",
+      "weight": 1.0,
+      "aliases": ["mssql", "microsoft sql server"],
+      "description": "Microsoft SQL Server"
+    }
+  },
+  "cloud_platforms": {
+    "aws": {
+      "category": "cloud_platform",
+      "weight": 1.0,
+      "aliases": ["amazon web services", "ec2", "s3", "lambda", "rds"],
+      "description": "Amazon Web Services"
+    },
+    "azure": {
+      "category": "cloud_platform",
+      "weight": 1.0,
+      "aliases": ["microsoft azure", "azure cloud"],
+      "description": "Microsoft Azure"
+    },
+    "gcp": {
+      "category": "cloud_platform",
+      "weight": 1.0,
+      "aliases": ["google cloud", "google cloud platform"],
+      "description": "Google Cloud Platform"
+    },
+    "digital ocean": {
+      "category": "cloud_platform",
+      "weight": 1.0,
+      "aliases": ["digitalocean", "do"],
+      "description": "DigitalOcean cloud platform"
+    }
+  },
+  "tools_and_platforms": {
+    "docker": {
+      "category": "containerization",
+      "weight": 1.0,
+      "aliases": ["containerization", "docker compose"],
+      "description": "Docker containerization"
+    },
+    "kubernetes": {
+      "category": "orchestration",
+      "weight": 1.0,
+      "aliases": ["k8s", "k8", "container orchestration"],
+      "description": "Kubernetes orchestration"
+    },
+    "git": {
+      "category": "version_control",
+      "weight": 1.0,
+      "aliases": ["github", "gitlab", "bitbucket", "version control"],
+      "description": "Git version control"
+    },
+    "jenkins": {
+      "category": "ci_cd",
+      "weight": 1.0,
+      "aliases": ["ci/cd", "continuous integration"],
+      "description": "Jenkins CI/CD"
+    },
+    "terraform": {
+      "category": "infrastructure",
+      "weight": 1.0,
+      "aliases": ["infrastructure as code", "iac"],
+      "description": "Terraform infrastructure tool"
+    },
+    "ansible": {
+      "category": "automation",
+      "weight": 1.0,
+      "aliases": ["configuration management"],
+      "description": "Ansible automation tool"
+    }
+  },
+  "mobile_technologies": {
+    "react native": {
+      "category": "mobile_framework",
+      "weight": 1.0,
+      "aliases": ["reactnative", "rn"],
+      "description": "React Native mobile framework"
+    },
+    "flutter": {
+      "category": "mobile_framework",
+      "weight": 1.0,
+      "aliases": ["dart flutter"],
+      "description": "Flutter mobile framework"
+    },
+    "ionic": {
+      "category": "mobile_framework",
+      "weight": 1.0,
+      "aliases": ["ionic framework"],
+      "description": "Ionic mobile framework"
+    },
+    "xamarin": {
+      "category": "mobile_framework",
+      "weight": 1.0,
+      "aliases": ["xamarin.forms"],
+      "description": "Xamarin mobile framework"
+    },
+    "android": {
+      "category": "mobile_platform",
+      "weight": 1.0,
+      "aliases": ["android studio", "android development"],
+      "description": "Android mobile platform"
+    },
+    "ios": {
+      "category": "mobile_platform",
+      "weight": 1.0,
+      "aliases": ["xcode", "ios development", "iphone"],
+      "description": "iOS mobile platform"
+    }
+  },
+  "data_science": {
+    "machine learning": {
+      "category": "ai_ml",
+      "weight": 1.0,
+      "aliases": ["ml", "artificial intelligence", "ai"],
+      "description": "Machine Learning and AI"
+    },
+    "tensorflow": {
+      "category": "ml_framework",
+      "weight": 1.0,
+      "aliases": ["tf", "keras"],
+      "description": "TensorFlow ML framework"
+    },
+    "pytorch": {
+      "category": "ml_framework",
+      "weight": 1.0,
+      "aliases": ["torch"],
+      "description": "PyTorch ML framework"
+    },
+    "pandas": {
+      "category": "data_analysis",
+      "weight": 1.0,
+      "aliases": ["data manipulation"],
+      "description": "Pandas data analysis library"
+    },
+    "numpy": {
+      "category": "data_analysis",
+      "weight": 1.0,
+      "aliases": ["numerical computing"],
+      "description": "NumPy numerical library"
+    },
+    "scikit-learn": {
+      "category": "ml_library",
+      "weight": 1.0,
+      "aliases": ["sklearn", "scikit learn"],
+      "description": "Scikit-learn ML library"
+    },
+    "tableau": {
+      "category": "data_visualization",
+      "weight": 1.0,
+      "aliases": ["data visualization"],
+      "description": "Tableau visualization tool"
+    },
+    "power bi": {
+      "category": "data_visualization",
+      "weight": 1.0,
+      "aliases": ["powerbi", "microsoft power bi"],
+      "description": "Microsoft Power BI"
+    },
+    "spark": {
+      "category": "big_data",
+      "weight": 1.0,
+      "aliases": ["apache spark", "pyspark"],
+      "description": "Apache Spark big data"
+    },
+    "hadoop": {
+      "category": "big_data",
+      "weight": 1.0,
+      "aliases": ["apache hadoop", "hdfs"],
+      "description": "Apache Hadoop big data"
+    }
+  }
+}

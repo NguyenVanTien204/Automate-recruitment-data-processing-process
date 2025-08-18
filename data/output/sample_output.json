@@ -1,0 +1,49 @@
+{
+  "original_description": "\n    Senior Data Scientist - Machine Learning Engineer\n    \n    We are looking for a Senior Data Scientist with 5+ years of experience to join our AI team.\n    \n    Responsibilities:\n    • Develop and implement machine learning models using Python, TensorFlow, and PyTorch\n    • Collaborate with cross-functional teams to deliver data-driven solutions\n    • Design and build scalable data pipelines using AWS and Docker\n    • Perform statistical analysis and data visualization using pandas, matplotlib, and Tableau\n    • Work with large datasets and big data technologies like Spark and Hadoop\n    • Participate in code reviews and maintain version control using Git\n    \n    Requirements:\n    • Master's degree in Computer Science, Statistics, or related field\n    • 5+ years of experience in machine learning and data science\n    • Proficiency in Python, SQL, and R\n    • Experience with cloud platforms (AWS, Azure, or GCP)\n    • Knowledge of deep learning frameworks (TensorFlow, PyTorch, Keras)\n    • Strong communication skills and team collaboration\n    • Experience with Agile/Scrum methodologies\n    \n    Benefits:\n    • Competitive salary $120,000 - $150,000 per year\n    • Remote work opportunity with flexible hours\n    • Health insurance and dental coverage\n    • Professional development budget\n    \n    Apply at: careers@company.com or visit our website www.company.com/careers\n    Contact: (555) 123-4567\n    \n    Posted: January 15, 2024\n    Location: San Francisco, CA (Remote OK)\n    ",
+  "cleaned_text": "Senior Data Scientist - Machine Learning Engineer We are looking for a Senior Data Scientist with 5+ years of experience to join our AI team. Responsibilities: • Develop and implement machine learning models using Python, TensorFlow, and PyTorch • Collaborate with cross-functional teams to deliver data-driven solutions • Design and build scalable data pipelines using AWS and Docker • Perform statistical analysis and data visualization using pandas, matplotlib, and Tableau • Work with large datasets and big data technologies like Spark and Hadoop • Participate in code reviews and maintain version control using Git Requirements: • Master's degree in Computer Science, Statistics, or related field • 5+ years of experience in machine learning and data science • Proficiency in Python, SQL, and R • Experience with cloud platforms (AWS, Azure, or GCP) • Knowledge of deep learning frameworks (TensorFlow, PyTorch, Keras) • Strong communication skills and team collaboration • Experience with Agile/Scrum methodologies Benefits: • Competitive salary $120,000 - $150,000 per year • Remote work opportunity with flexible hours • Health insurance and dental coverage • Professional development budget Apply at: careers@company.com or visit our website www.company.com/careers Contact: (555) 123-4567 Posted: January 15, 2024 Location: San Francisco, CA (Remote OK)",
+  "dates": [],
+  "durations": [
+    "5+ years of experience",
+    "5+ years"
+  ],
+  "emails": [
+    "careers@company.com"
+  ],
+  "urls": [
+    "www.company.com/careers"
+  ],
+  "phone_numbers": [],
+  "skills": [
+    "python",
+    "machine learning",
+    "data science",
+    "sql",
+    "git",
+    "docker",
+    "aws",
+    "azure",
+    "communication"
+  ],
+  "roles": [
+    "engineer",
+    "scientist",
+    "senior"
+  ],
+  "technologies": [
+    "docker",
+    "aws",
+    "azure",
+    "git"
+  ],
+  "responsibilities": [],
+  "qualifications": [],
+  "benefits": [],
+  "matched_skills": [],
+  "matched_technologies": [],
+  "confidence_scores": {
+    "ner_confidence": 0.5,
+    "keyword_confidence": 0.0
+  },
+  "processing_time": 0.010044,
+  "timestamp": "2025-08-18T10:26:42.980082"
+}

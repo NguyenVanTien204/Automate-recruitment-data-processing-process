@@ -35,3 +35,22 @@ class JobStorage:
             logger.info(f"Đã lưu {len(docs)} jobs vào MongoDB ({self.collection.full_name})")
         else:
             logger.warning("Danh sách jobs sau khi convert rỗng")
+
+    def get_jobs(self, source: str = None, limit: int = None) -> List[dict]:
+        """Lấy jobs từ MongoDB với filter và limit."""
+        query = {}
+        if source:
+            query['source'] = source
+
+        cursor = self.collection.find(query)
+        if limit:
+            cursor = cursor.limit(limit)
+
+        return list(cursor)
+
+    def count_jobs(self, source: str = None) -> int:
+        """Đếm số lượng jobs."""
+        query = {}
+        if source:
+            query['source'] = source
+        return self.collection.count_documents(query)
