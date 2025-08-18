@@ -1,0 +1,242 @@
+{
+  "programming_languages": {
+    "python": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["py", "python3", "python2"],
+      "description": "High-level programming language"
+    },
+    "java": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["jvm", "java se", "java ee"],
+      "description": "Object-oriented programming language"
+    },
+    "javascript": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["js", "ecmascript", "es6", "es2015", "node.js", "nodejs"],
+      "description": "Dynamic programming language for web development"
+    },
+    "typescript": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["ts"],
+      "description": "Typed superset of JavaScript"
+    },
+    "c++": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["cpp", "c plus plus", "cplusplus"],
+      "description": "General-purpose programming language"
+    },
+    "c#": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["csharp", "c sharp", ".net"],
+      "description": "Object-oriented programming language by Microsoft"
+    },
+    "php": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["php7", "php8"],
+      "description": "Server-side scripting language"
+    },
+    "ruby": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["rb"],
+      "description": "Dynamic programming language"
+    },
+    "go": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["golang"],
+      "description": "Compiled programming language by Google"
+    },
+    "rust": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Systems programming language"
+    },
+    "swift": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Programming language by Apple"
+    },
+    "kotlin": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Modern programming language by JetBrains"
+    },
+    "scala": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Functional programming language on JVM"
+    },
+    "r": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": ["r programming", "r language"],
+      "description": "Statistical computing language"
+    },
+    "matlab": {
+      "category": "programming",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Technical computing platform"
+    },
+    "sql": {
+      "category": "database",
+      "weight": 1.0,
+      "aliases": ["structured query language", "mysql", "postgresql", "tsql"],
+      "description": "Database query language"
+    }
+  },
+  "data_science": {
+    "machine learning": {
+      "category": "ai",
+      "weight": 1.0,
+      "aliases": ["ml", "machinelearning", "machine-learning"],
+      "description": "AI technique for pattern recognition"
+    },
+    "deep learning": {
+      "category": "ai",
+      "weight": 1.0,
+      "aliases": ["dl", "neural networks", "deep neural networks", "dnn"],
+      "description": "Machine learning with neural networks"
+    },
+    "artificial intelligence": {
+      "category": "ai",
+      "weight": 1.0,
+      "aliases": ["ai", "artificial-intelligence"],
+      "description": "Intelligence demonstrated by machines"
+    },
+    "natural language processing": {
+      "category": "ai",
+      "weight": 1.0,
+      "aliases": ["nlp", "natural-language-processing", "text processing"],
+      "description": "AI for human language understanding"
+    },
+    "computer vision": {
+      "category": "ai",
+      "weight": 1.0,
+      "aliases": ["cv", "image processing", "image recognition"],
+      "description": "AI for visual understanding"
+    },
+    "data analysis": {
+      "category": "analysis",
+      "weight": 1.0,
+      "aliases": ["data analytics", "data-analysis"],
+      "description": "Process of examining data"
+    },
+    "statistics": {
+      "category": "analysis",
+      "weight": 1.0,
+      "aliases": ["statistical analysis", "stats"],
+      "description": "Mathematical analysis of data"
+    },
+    "big data": {
+      "category": "data",
+      "weight": 1.0,
+      "aliases": ["bigdata", "big-data"],
+      "description": "Large and complex datasets"
+    },
+    "data mining": {
+      "category": "data",
+      "weight": 1.0,
+      "aliases": ["datamining", "data-mining"],
+      "description": "Extracting patterns from data"
+    },
+    "predictive modeling": {
+      "category": "modeling",
+      "weight": 1.0,
+      "aliases": ["predictive analytics", "forecasting"],
+      "description": "Creating models to predict future outcomes"
+    },
+    "data visualization": {
+      "category": "visualization",
+      "weight": 1.0,
+      "aliases": ["data viz", "dataviz", "charts", "graphs"],
+      "description": "Visual representation of data"
+    },
+    "business intelligence": {
+      "category": "analysis",
+      "weight": 1.0,
+      "aliases": ["bi", "business analytics"],
+      "description": "Technologies for analyzing business information"
+    }
+  },
+  "libraries_frameworks": {
+    "pandas": {
+      "category": "data",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Python data manipulation library"
+    },
+    "numpy": {
+      "category": "data",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Python numerical computing library"
+    },
+    "scikit-learn": {
+      "category": "ml",
+      "weight": 1.0,
+      "aliases": ["sklearn", "scikit learn"],
+      "description": "Python machine learning library"
+    },
+    "tensorflow": {
+      "category": "ml",
+      "weight": 1.0,
+      "aliases": ["tf"],
+      "description": "Open source machine learning framework"
+    },
+    "pytorch": {
+      "category": "ml",
+      "weight": 1.0,
+      "aliases": ["torch"],
+      "description": "Machine learning framework"
+    },
+    "keras": {
+      "category": "ml",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "High-level neural networks API"
+    },
+    "matplotlib": {
+      "category": "visualization",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Python plotting library"
+    },
+    "seaborn": {
+      "category": "visualization",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Python statistical visualization library"
+    },
+    "plotly": {
+      "category": "visualization",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Interactive visualization library"
+    },
+    "spacy": {
+      "category": "nlp",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Industrial-strength NLP library"
+    },
+    "nltk": {
+      "category": "nlp",
+      "weight": 1.0,
+      "aliases": ["natural language toolkit"],
+      "description": "Natural language processing toolkit"
+    }
+  }
+}

@@ -1,12 +1,13 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 import time
 import random
 import re
+
+from .base_site import BaseSiteCrawler, JobPosting
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
-from .base_site import BaseSiteCrawler, JobPosting
-
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.edge.service import Service as EdgeService
@@ -30,6 +31,7 @@ class Linkedin_Crawler(BaseSiteCrawler):
         self.scroll_pause = scroll_pause
         self.profile_dir = profile_dir
         self.user_data_dir = user_data_dir
+        self.current_limit = 50  # Default limit, will be overridden in run()
 
     def _build_driver(self):
         """Khởi tạo Edge driver với profile (để giữ đăng nhập)."""
@@ -56,6 +58,12 @@ class Linkedin_Crawler(BaseSiteCrawler):
             params.append(f"location={location}")
         q = ("&".join(params)) if params else ""
         return f"{self.base_url}/search/" + (f"?{q}" if q else "")
+
+    def run(self, keyword: str, *, location: Optional[str] = None, limit: int = 50,
+            pages: Optional[int] = None, extra: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """Override run method to capture limit parameter."""
+        self.current_limit = limit
+        return super().run(keyword, location=location, limit=limit, pages=pages, extra=extra)
 
     def _extract_full_description(self, driver) -> Optional[str]:
         """Trích xuất toàn bộ description của job, bao gồm việc click 'Show more' nếu cần."""
@@ -309,17 +317,17 @@ class Linkedin_Crawler(BaseSiteCrawler):
             print(f"DEBUG: Error in _parse_posted_at_from_card: {e}")
             return None
 
-    def parse_job_cards(self, limit: int = 3) -> List[JobPosting]:
+    def parse_job_cards(self) -> List[JobPosting]:
         driver = self.driver
         assert driver is not None
 
         # Scroll để load đủ job
-        self._infinite_scroll(limit=limit)
+        self._infinite_scroll(limit=self.current_limit)
 
         jobs: List[JobPosting] = []
         cards = driver.find_elements(By.CSS_SELECTOR, "ul.jobs-search__results-list li")
 
-        for i, card in enumerate(cards[:limit], 1):
+        for i, card in enumerate(cards[:self.current_limit], 1):
             try:
                 title_el = card.find_element(By.CSS_SELECTOR, "a.job-card-list__title, a[href*='/jobs/view/']")
                 title = self._txt(title_el)
@@ -425,7 +433,7 @@ class Linkedin_Crawler(BaseSiteCrawler):
             print(f"DEBUG: Card {i} completed - {title} | {company} | {posted_at} | {applicants} applicants")
 
             # Thêm delay giữa các cards để tránh bị detect
-            if i < len(cards[:limit]):
+            if i < len(cards[:self.current_limit]):
                 time.sleep(self.pause + random.uniform(0.2, 0.5))
 
         print(f"DEBUG: Completed parsing {len(jobs)} jobs")

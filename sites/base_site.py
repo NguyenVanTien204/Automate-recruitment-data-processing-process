@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, asdict, field
 from typing import Any, Dict, List, Optional
-
+from datetime import datetime
 import time
 
 from selenium import webdriver
@@ -41,7 +41,7 @@ class JobPosting:
 	description: Optional[str] = None
 	tags: List[str] = field(default_factory=list)
 	raw: Dict[str, Any] = field(default_factory=dict)
-
+	timestamp: time = field(default_factory=lambda: datetime.now().isoformat())
 	def to_dict(self) -> Dict[str, Any]:
 		return asdict(self)
 

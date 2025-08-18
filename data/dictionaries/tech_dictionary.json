@@ -1,0 +1,288 @@
+{
+  "frameworks": {
+    "react": {
+      "category": "frontend",
+      "weight": 1.0,
+      "aliases": ["reactjs", "react.js", "react js"],
+      "description": "JavaScript library for building user interfaces"
+    },
+    "angular": {
+      "category": "frontend",
+      "weight": 1.0,
+      "aliases": ["angularjs", "angular2", "angular 2"],
+      "description": "TypeScript-based web application framework"
+    },
+    "vue": {
+      "category": "frontend",
+      "weight": 1.0,
+      "aliases": ["vuejs", "vue.js", "vue js"],
+      "description": "Progressive JavaScript framework"
+    },
+    "django": {
+      "category": "backend",
+      "weight": 1.0,
+      "aliases": ["django framework"],
+      "description": "Python web framework"
+    },
+    "flask": {
+      "category": "backend",
+      "weight": 1.0,
+      "aliases": ["flask framework"],
+      "description": "Lightweight Python web framework"
+    },
+    "spring": {
+      "category": "backend",
+      "weight": 1.0,
+      "aliases": ["spring boot", "spring framework"],
+      "description": "Java application framework"
+    },
+    "express": {
+      "category": "backend",
+      "weight": 1.0,
+      "aliases": ["expressjs", "express.js", "express js"],
+      "description": "Node.js web application framework"
+    },
+    "laravel": {
+      "category": "backend",
+      "weight": 1.0,
+      "aliases": ["laravel framework"],
+      "description": "PHP web framework"
+    },
+    "rails": {
+      "category": "backend",
+      "weight": 1.0,
+      "aliases": ["ruby on rails", "ror"],
+      "description": "Ruby web framework"
+    },
+    "fastapi": {
+      "category": "backend",
+      "weight": 1.0,
+      "aliases": ["fast api"],
+      "description": "Modern Python web framework"
+    },
+    "nextjs": {
+      "category": "fullstack",
+      "weight": 1.0,
+      "aliases": ["next.js", "next js"],
+      "description": "React-based full-stack framework"
+    },
+    "nuxtjs": {
+      "category": "fullstack",
+      "weight": 1.0,
+      "aliases": ["nuxt.js", "nuxt js"],
+      "description": "Vue.js-based full-stack framework"
+    }
+  },
+  "databases": {
+    "mysql": {
+      "category": "relational",
+      "weight": 1.0,
+      "aliases": ["my sql"],
+      "description": "Open-source relational database"
+    },
+    "postgresql": {
+      "category": "relational",
+      "weight": 1.0,
+      "aliases": ["postgres", "psql"],
+      "description": "Advanced open-source relational database"
+    },
+    "mongodb": {
+      "category": "nosql",
+      "weight": 1.0,
+      "aliases": ["mongo", "mongo db"],
+      "description": "NoSQL document database"
+    },
+    "redis": {
+      "category": "cache",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "In-memory data structure store"
+    },
+    "elasticsearch": {
+      "category": "search",
+      "weight": 1.0,
+      "aliases": ["elastic search", "elastic"],
+      "description": "Search and analytics engine"
+    },
+    "cassandra": {
+      "category": "nosql",
+      "weight": 1.0,
+      "aliases": ["apache cassandra"],
+      "description": "NoSQL distributed database"
+    },
+    "oracle": {
+      "category": "relational",
+      "weight": 1.0,
+      "aliases": ["oracle db", "oracle database"],
+      "description": "Enterprise relational database"
+    },
+    "sqlite": {
+      "category": "relational",
+      "weight": 1.0,
+      "aliases": ["sqlite3"],
+      "description": "Lightweight relational database"
+    },
+    "dynamodb": {
+      "category": "nosql",
+      "weight": 1.0,
+      "aliases": ["dynamo db", "amazon dynamodb"],
+      "description": "AWS NoSQL database"
+    },
+    "firebase": {
+      "category": "nosql",
+      "weight": 1.0,
+      "aliases": ["google firebase"],
+      "description": "Google's mobile and web app platform"
+    }
+  },
+  "cloud_platforms": {
+    "aws": {
+      "category": "cloud",
+      "weight": 1.0,
+      "aliases": ["amazon web services", "amazon aws"],
+      "description": "Amazon's cloud computing platform"
+    },
+    "azure": {
+      "category": "cloud",
+      "weight": 1.0,
+      "aliases": ["microsoft azure", "azure cloud"],
+      "description": "Microsoft's cloud computing platform"
+    },
+    "gcp": {
+      "category": "cloud",
+      "weight": 1.0,
+      "aliases": ["google cloud platform", "google cloud", "gcloud"],
+      "description": "Google's cloud computing platform"
+    },
+    "docker": {
+      "category": "containerization",
+      "weight": 1.0,
+      "aliases": ["docker containers"],
+      "description": "Containerization platform"
+    },
+    "kubernetes": {
+      "category": "orchestration",
+      "weight": 1.0,
+      "aliases": ["k8s", "k8"],
+      "description": "Container orchestration platform"
+    },
+    "terraform": {
+      "category": "infrastructure",
+      "weight": 1.0,
+      "aliases": ["terraform iac"],
+      "description": "Infrastructure as Code tool"
+    },
+    "ansible": {
+      "category": "automation",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "IT automation tool"
+    },
+    "jenkins": {
+      "category": "ci_cd",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Continuous integration tool"
+    },
+    "gitlab": {
+      "category": "ci_cd",
+      "weight": 1.0,
+      "aliases": ["gitlab ci", "gitlab ci/cd"],
+      "description": "DevOps platform with CI/CD"
+    },
+    "github actions": {
+      "category": "ci_cd",
+      "weight": 1.0,
+      "aliases": ["github action"],
+      "description": "GitHub's CI/CD platform"
+    }
+  },
+  "tools_platforms": {
+    "git": {
+      "category": "version_control",
+      "weight": 1.0,
+      "aliases": ["github", "gitlab", "version control"],
+      "description": "Distributed version control system"
+    },
+    "jira": {
+      "category": "project_management",
+      "weight": 1.0,
+      "aliases": ["atlassian jira"],
+      "description": "Issue tracking and project management"
+    },
+    "confluence": {
+      "category": "documentation",
+      "weight": 1.0,
+      "aliases": ["atlassian confluence"],
+      "description": "Collaboration and documentation tool"
+    },
+    "slack": {
+      "category": "communication",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Team collaboration platform"
+    },
+    "tableau": {
+      "category": "visualization",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Data visualization platform"
+    },
+    "powerbi": {
+      "category": "visualization",
+      "weight": 1.0,
+      "aliases": ["power bi", "microsoft powerbi"],
+      "description": "Business analytics tool by Microsoft"
+    },
+    "vs code": {
+      "category": "ide",
+      "weight": 1.0,
+      "aliases": ["vscode", "visual studio code"],
+      "description": "Code editor by Microsoft"
+    },
+    "intellij": {
+      "category": "ide",
+      "weight": 1.0,
+      "aliases": ["intellij idea", "jetbrains intellij"],
+      "description": "Java IDE by JetBrains"
+    },
+    "postman": {
+      "category": "api_testing",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "API development and testing platform"
+    },
+    "figma": {
+      "category": "design",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Collaborative design tool"
+    }
+  },
+  "operating_systems": {
+    "linux": {
+      "category": "os",
+      "weight": 1.0,
+      "aliases": ["ubuntu", "centos", "debian", "redhat"],
+      "description": "Open-source operating system"
+    },
+    "windows": {
+      "category": "os",
+      "weight": 1.0,
+      "aliases": ["microsoft windows", "windows server"],
+      "description": "Microsoft operating system"
+    },
+    "macos": {
+      "category": "os",
+      "weight": 1.0,
+      "aliases": ["mac os", "osx", "os x"],
+      "description": "Apple operating system"
+    },
+    "unix": {
+      "category": "os",
+      "weight": 1.0,
+      "aliases": [],
+      "description": "Multi-user operating system"
+    }
+  }
+}
