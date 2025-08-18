@@ -37,6 +37,7 @@ class JobPosting:
 	source: Optional[str] = None
 	salary: Optional[str] = None
 	posted_at: Optional[str] = None
+	applicants: Optional[int] = None  # Number of applicants, if available
 	description: Optional[str] = None
 	tags: List[str] = field(default_factory=list)
 	raw: Dict[str, Any] = field(default_factory=dict)

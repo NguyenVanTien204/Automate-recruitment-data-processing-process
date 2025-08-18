@@ -10,7 +10,7 @@ logger.setLevel(logging.INFO)
 
 
 class JobStorage:
-    def __init__(self, uri: str = "mongodb://localhost:27017/", db_name: str = "crawler", collection: str = "jobs"):
+    def __init__(self, uri: str = "mongodb://localhost:27017/", db_name: str = "crawler", collection: str = "test"):
         self.client = MongoClient(uri)
         self.db = self.client[db_name]
         self.collection = self.db[collection]
